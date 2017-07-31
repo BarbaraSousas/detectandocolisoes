@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Detectando Colisoes</title>
+</head>
+<style>
+		canvas{
+			border: solid 1px;
+			margin: 0 auto;
+			display: block;
+		}
+</style>
+<body>
+<canvas width="500" height="500"></canvas>
+<script>
+	var left = 37, up = 38, right = 39, down = 40;
+	var size = 50;
+	var canvas = document.querySelector("canvas");
+	var contexto = canvas.getContext("2d");
+	var posX = 50;
+	var posY = 50;
+	var objColor = "black"
+
+	var blockX = canvas.width/2 - 25;
+	var blockY = canvas.height/2 - 25;
+
+	var moveLeft = moveUp = moveRight = moveDown = false;
+
+	function updateBlock(){
+		if(moveLeft){
+			posX--;
+		}
+		if(moveRight){
+			posX++;
+		}
+		if (moveUp){
+			posY--;
+		}
+		if (moveDown){
+			posY++;
+		}
+	}
+
+	function colide(){
+		if (posX + size > blockX &&
+				posX < blockX + size &&
+				posY + size > blockY &&
+				posY < blockY + size){
+				objColor = "orange";
+		} else {
+			objColor = "black";
+		}
+	}
+
+	window.addEventListener("keydown", keydownHandler, false);
+	window.addEventListener("keyup", keyupHandler, false);
+
+	function keydownHandler(e){
+		var key = e.keyCode;
+		switch(key){
+			case up:
+			moveUp = true;
+			break;
+			case down:
+			moveDown = true;
+			break;
+			case left:
+			moveLeft = true;
+			break;
+			case right:
+			moveRight = true;
+			break;
+		}
+	}
+
+	function keyupHandler(e){
+		var key = e.keyCode;
+		switch(key){
+			case up:
+			moveUp = false;
+			break;
+			case down:
+			moveDown = false;
+			break;
+			case left:
+			moveLeft = false;
+			break;
+			case right:
+			moveRight = false;
+			break;
+		}
+	}
+
+	function update(){
+		updateBlock();
+		colide();
+	}
+	 
+	function draw(){
+		contexto.clearRect(0, 0, canvas.width, canvas.height);
+		contexto.fillStyle = "grey";
+		contexto.fillRect(blockX,blockY,size,size);
+		contexto.fillStyle = objColor;
+		contexto.fillRect(posX, posY, size, size);
+	}
+
+	function loop(){
+		window.requestAnimationFrame(loop, canvas);
+		update();
+		draw();
+		
+	}
+
+	 loop();
+
+
+</script>
+</body>
+</html>
