@@ -1,2 +1,2 @@
 # detectandocolisoes
-Detecção de colisões com JavaScript
+Detecção de colisões com JavaScript e Canvas
